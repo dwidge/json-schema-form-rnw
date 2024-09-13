@@ -1,6 +1,6 @@
 {
   "name": "@dwidge/json-schema-form-rnw",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -19,17 +19,7 @@
     "prepare": "rimraf dist && ncp assets/ dist/ && tsc && tsc --project tsconfig.esm.json",
     "test": "node --test"
   },
-  "devDependencies": {
-    "@types/node": "^22.5.4",
-    "expect": "^29.7.0",
-    "ncp": "^2.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "^5.2.2"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
+  "peerDependencies": {
     "@dwidge/components-rnw": "^0.0.2",
     "@dwidge/hooks-react": "^0.0.1",
     "@dwidge/utils-js": "^0.0.1",
@@ -41,5 +31,15 @@
     "assert": "^2.1.0",
     "react": "^18.2",
     "react-native-web": "^0.19.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "expect": "^29.7.0",
+    "ncp": "^2.0.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
