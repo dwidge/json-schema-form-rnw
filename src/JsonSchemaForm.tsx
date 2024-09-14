@@ -9,7 +9,7 @@ import * as Ajv from "ajv";
 import AjvErrors from "ajv-errors";
 import addFormats from "ajv-formats";
 import { assert } from "@dwidge/utils-js";
-import React, {
+import {
   Dispatch,
   memo,
   ReactNode,
@@ -99,7 +99,7 @@ export const JSONSchemaForm = <T, S>({
   schema,
   value,
   onChange,
-}: JsonSchemaFormProps<T, S>) => {
+}: JsonSchemaFormProps<T, S>): JSX.Element => {
   const [delayed, setDelayed] = useBufferedState([
     value,
     onChange ? (v) => onChange?.(() => v) : undefined,
