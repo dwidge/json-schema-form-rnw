@@ -9,7 +9,7 @@ import * as Ajv from "ajv";
 import AjvErrors from "ajv-errors";
 import addFormats from "ajv-formats";
 import { assert } from "@dwidge/utils-js";
-import {
+import React, {
   Dispatch,
   memo,
   ReactNode,
@@ -17,7 +17,7 @@ import {
   useEffect,
   useState,
 } from "react";
-export { JSONSchemaType } from "ajv";
+export { type JSONSchemaType } from "ajv";
 
 const ajv = new Ajv.Ajv({ allErrors: true });
 AjvErrors(ajv);
@@ -129,7 +129,7 @@ type InputControlProps<T extends Ajv.JSONType, V> = {
   error?: string;
 } & State<V>;
 type InputControl<T extends Ajv.JSONType, V> = (
-  p: InputControlProps<T, V>
+  p: InputControlProps<T, V>,
 ) => ReactNode;
 
 const AnyInput = memo(
@@ -150,7 +150,7 @@ const AnyInput = memo(
         onChange,
       }}
     />
-  )
+  ),
 );
 
 const TextInput: InputControl<"string", string | null | undefined> = memo(
@@ -166,12 +166,12 @@ const TextInput: InputControl<"string", string | null | undefined> = memo(
         schema.format === "email"
           ? "email"
           : schema.format === "password"
-          ? "current-password"
-          : undefined
+            ? "current-password"
+            : undefined
       }
       multiline={((((schema.maxLength ?? 1) - 1) / 128) | 0) + 1}
     />
-  )
+  ),
 );
 
 const NumberInput: InputControl<"number", number | undefined> = memo(
@@ -197,7 +197,7 @@ const NumberInput: InputControl<"number", number | undefined> = memo(
       onChange={setState}
       error={error}
     />
-  )
+  ),
 );
 
 const BooleanInput: InputControl<"boolean", boolean | undefined> = memo(
@@ -214,7 +214,7 @@ const BooleanInput: InputControl<"boolean", boolean | undefined> = memo(
       </StyledView>
       {error && <StyledText error>({error})</StyledText>}
     </StyledView>
-  )
+  ),
 );
 
 const ObjectInput: InputControl<"object", object> = memo(
@@ -230,9 +230,9 @@ const ObjectInput: InputControl<"object", object> = memo(
             ...value,
             [key]: v(value?.[key as keyof typeof value]),
           }),
-          name
+          name,
         ),
-      []
+      [],
     ),
   }: InputControlProps<"object", object> & {
     onChangeMemo?: SetState<object>;
@@ -250,7 +250,7 @@ const ObjectInput: InputControl<"object", object> = memo(
         </StyledView>
       ))}
     </StyledView>
-  )
+  ),
 );
 
 const ArrayInput: InputControl<"array", any[]> = memo(
@@ -268,7 +268,7 @@ const ArrayInput: InputControl<"array", any[]> = memo(
                 onChange?.(
                   (value) =>
                     (value ?? []).map((i, idx) => (idx === index ? v(i) : i)),
-                  name
+                  name,
                 )
               }
             />
@@ -278,7 +278,7 @@ const ArrayInput: InputControl<"array", any[]> = memo(
             onPress={() =>
               onChange?.(
                 (value) => (value ?? []).filter((_, idx) => idx !== index),
-                name
+                name,
               )
             }
           />
@@ -291,7 +291,7 @@ const ArrayInput: InputControl<"array", any[]> = memo(
         }
       />
     </StyledView>
-  )
+  ),
 );
 
 const InputTypes: Record<Ajv.JSONType, InputControl<any, any>> = {
@@ -332,7 +332,7 @@ const UnstyledInput = ({
       <StyledPicker value={value} onChange={onChange} options={options} />
     ) : (
       <Input
-        //@ts-expect-error
+        //@ts-ignore-error
         value={value}
         onChangeText={(v) => onChange?.(() => v)}
         secureTextEntry={secure}
@@ -354,7 +354,7 @@ type State<T> = {
 
 const useValidate = <T extends Ajv.JSONType>(
   schema: Schema<T>,
-  value: any
+  value: any,
 ): string | undefined => {
   const [errors, setErrors] = useState<Ajv.ErrorObject[]>([]);
 
@@ -368,8 +368,8 @@ const useValidate = <T extends Ajv.JSONType>(
   return error
     ? error.keyword === "errorMessage"
       ? error.message
-      : errorMessages[error.keyword as keyof typeof errorMessages] ??
-        errorMessages.default
+      : (errorMessages[error.keyword as keyof typeof errorMessages] ??
+        errorMessages.default)
     : undefined;
 };
 
