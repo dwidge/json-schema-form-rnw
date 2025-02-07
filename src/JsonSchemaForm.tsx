@@ -329,7 +329,18 @@ const UnstyledInput = ({
       {error && <StyledText error> ({error})</StyledText>}
     </StyledText>
     {options ? (
-      <StyledPicker value={value} onChange={onChange} options={options} />
+      <StyledPicker
+        value={[
+          value,
+          onChange
+            ? async (
+                getV,
+                v = typeof getV === "function" ? getV("") : getV,
+              ) => (onChange((prev) => v), v)
+            : undefined,
+        ]}
+        options={options}
+      />
     ) : (
       <Input
         //@ts-ignore-error
