@@ -237,7 +237,7 @@ const ObjectInput: InputControl<"object", object> = memo(
   }: InputControlProps<"object", object> & {
     onChangeMemo?: SetState<object>;
   }) => (
-    <StyledView flex gap>
+    <StyledView gap>
       {schema.title && <Text>{schema.title}</Text>}
       {Object.keys(schema.properties).map((key) => (
         <StyledView key={key}>
@@ -323,7 +323,7 @@ const UnstyledInput = ({
   autoComplete?: "current-password" | "email";
   multiline?: number;
 }) => (
-  <StyledView flex sgap>
+  <StyledView sgap>
     <StyledText>
       {label}
       {error && <StyledText error> ({error})</StyledText>}
@@ -340,6 +340,7 @@ const UnstyledInput = ({
             : undefined,
         ]}
         options={options}
+        unknownLabel="?"
       />
     ) : (
       <Input
@@ -352,6 +353,7 @@ const UnstyledInput = ({
         multiline={!secure && (multiline ?? 0) > 1}
         numberOfLines={multiline}
         textAlignVertical="top"
+        renderErrorMessage={false}
       />
     )}
   </StyledView>
