@@ -333,10 +333,10 @@ const UnstyledInput = ({
         value={[
           value,
           onChange
-            ? async (
-                getV,
-                v = typeof getV === "function" ? getV("") : getV,
-              ) => (onChange((prev) => v), v)
+            ? async (getV) => {
+                const v = await (typeof getV === "function" ? getV("") : getV);
+                return onChange((prev) => v), v;
+              }
             : undefined,
         ]}
         options={options}
