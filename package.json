@@ -1,6 +1,6 @@
 {
   "name": "@dwidge/json-schema-form-rnw",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A JSON schema form implementation for React Native Web.",
   "repository": "github:dwidge/json-schema-form-rnw",
   "main": "./dist/cjs/index.js",
@@ -22,9 +22,9 @@
     "test": "node --enable-source-maps --test --test-name-pattern"
   },
   "peerDependencies": {
-    "@dwidge/components-rnw": "^0.0.15",
-    "@dwidge/hooks-react": "^0.0.11",
-    "@dwidge/utils-js": "^0.0.15",
+    "@dwidge/components-rnw": "^0.0.16",
+    "@dwidge/hooks-react": "^0.0.12",
+    "@dwidge/utils-js": "^0.0.16",
     "@rneui/base": "4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "ajv": "^8.17.1",
@@ -39,7 +39,7 @@
     "expect": "^29.7.0",
     "ncp": "^2.0.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.3"
   },
   "publishConfig": {
     "access": "public"
