@@ -324,10 +324,8 @@ const UnstyledInput = ({
   multiline?: number;
 }) => (
   <StyledView sgap>
-    <StyledText>
-      {label}
-      {error && <StyledText error> ({error})</StyledText>}
-    </StyledText>
+    <StyledText>{label}</StyledText>
+    {error && <StyledText error>{error}</StyledText>}
     {options ? (
       <StyledPicker
         value={[
@@ -354,6 +352,7 @@ const UnstyledInput = ({
         numberOfLines={multiline}
         textAlignVertical="top"
         renderErrorMessage={false}
+        style={{ width: "100%" }}
       />
     )}
   </StyledView>
