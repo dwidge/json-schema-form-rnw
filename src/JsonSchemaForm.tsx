@@ -4,17 +4,18 @@
 
 import { StyledPicker, StyledText, StyledView } from "@dwidge/components-rnw";
 import { BufferedState, useBufferedState } from "@dwidge/hooks-react";
+import { assert } from "@dwidge/utils-js";
 import { Button, CheckBox, Input, Text } from "@rneui/themed";
 import * as Ajv from "ajv";
 import AjvErrors from "ajv-errors";
 import addFormats from "ajv-formats";
-import { assert } from "@dwidge/utils-js";
 import React, {
   Dispatch,
   memo,
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 export { type JSONSchemaType } from "ajv";
@@ -120,6 +121,7 @@ type Schema<T extends Ajv.JSONType> = {
   items?: Schema<any>;
   properties?: any;
   enum?: T[];
+  examples?: { value: T; label: string }[];
   format?: string;
   maxLength?: number;
 };
@@ -154,24 +156,33 @@ const AnyInput = memo(
 );
 
 const TextInput: InputControl<"string", string | null | undefined> = memo(
-  ({ schema, name, value, onChange, error = useValidate(schema, value) }) => (
-    <UnstyledInput
-      label={schema.title ?? name}
-      value={value ?? ""}
-      onChange={(v) => onChange?.((value) => v(value ?? "") || null, name)}
-      error={error}
-      options={schema.enum?.map((value) => ({ value, label: value }))}
-      secure={schema.format === "password"}
-      autoComplete={
-        schema.format === "email"
-          ? "email"
-          : schema.format === "password"
-            ? "current-password"
-            : undefined
-      }
-      multiline={((((schema.maxLength ?? 1) - 1) / 128) | 0) + 1}
-    />
-  ),
+  ({ schema, name, value, onChange, error = useValidate(schema, value) }) => {
+    const options = useMemo(
+      () =>
+        schema.examples ??
+        schema.enum?.map((value) => ({ value, label: value })),
+      [schema.enum, schema.examples],
+    );
+
+    return (
+      <UnstyledInput
+        label={schema.title ?? name}
+        value={value ?? ""}
+        onChange={(v) => onChange?.((value) => v(value ?? "") || null, name)}
+        error={error}
+        options={options}
+        secure={schema.format === "password"}
+        autoComplete={
+          schema.format === "email"
+            ? "email"
+            : schema.format === "password"
+              ? "current-password"
+              : undefined
+        }
+        multiline={((((schema.maxLength ?? 1) - 1) / 128) | 0) + 1}
+      />
+    );
+  },
 );
 
 const NumberInput: InputControl<"number", number | undefined> = memo(
