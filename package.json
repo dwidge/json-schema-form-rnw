@@ -1,6 +1,6 @@
 {
   "name": "@dwidge/json-schema-form-rnw",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "A JSON schema form implementation for React Native Web.",
   "repository": "github:dwidge/json-schema-form-rnw",
   "main": "./dist/cjs/index.js",
