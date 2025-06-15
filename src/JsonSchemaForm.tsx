@@ -364,6 +364,9 @@ const UnstyledInput = ({
         textAlignVertical="top"
         renderErrorMessage={false}
         style={{ width: "100%" }}
+        autoCapitalize={autoComplete === "email" || secure ? "none" : undefined}
+        autoCorrect={autoComplete === "email" || secure ? false : undefined}
+        textContentType={secure ? "password" : undefined}
       />
     )}
   </StyledView>
