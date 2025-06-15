@@ -1,11 +1,7 @@
-// Copyright DWJ 2024.
-// Distributed under the Boost Software License, Version 1.0.
-// https://www.boost.org/LICENSE_1_0.txt
-
-import { StyledPicker, StyledText, StyledView } from "@dwidge/components-rnw";
+import { StyledText, StyledView } from "@dwidge/components-rnw";
 import { BufferedState, useBufferedState } from "@dwidge/hooks-react";
 import { assert } from "@dwidge/utils-js";
-import { Button, CheckBox, Input, Text } from "@rneui/themed";
+import { Button, CheckBox, Text } from "@rneui/themed";
 import * as Ajv from "ajv";
 import AjvErrors from "ajv-errors";
 import addFormats from "ajv-formats";
@@ -18,6 +14,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { UnstyledInput } from "./UnstyledInput.js";
 export { type JSONSchemaType } from "ajv";
 
 const ajv = new Ajv.Ajv({ allErrors: true });
@@ -314,63 +311,6 @@ const InputTypes: Record<Ajv.JSONType, InputControl<any, any>> = {
   null: () => null,
   array: ArrayInput,
 };
-
-const UnstyledInput = ({
-  label,
-  value,
-  onChange,
-  error,
-  options,
-  secure,
-  autoComplete,
-  multiline,
-}: {
-  label?: string;
-  value: string;
-  onChange?: (setter: (prevState: string) => string) => unknown;
-  error?: string;
-  options?: { label: string; value: string }[];
-  secure?: boolean;
-  autoComplete?: "current-password" | "email";
-  multiline?: number;
-}) => (
-  <StyledView sgap>
-    <StyledText>{label}</StyledText>
-    {error && <StyledText error>{error}</StyledText>}
-    {options ? (
-      <StyledPicker
-        value={[
-          value,
-          onChange
-            ? async (getV) => {
-                const v = await (typeof getV === "function" ? getV("") : getV);
-                return onChange((prev) => v), v;
-              }
-            : undefined,
-        ]}
-        options={options}
-        unknownLabel="?"
-      />
-    ) : (
-      <Input
-        //@ts-ignore-error
-        value={value}
-        onChangeText={(v) => onChange?.(() => v)}
-        secureTextEntry={secure}
-        // @ts-ignore
-        autoComplete={autoComplete}
-        multiline={!secure && (multiline ?? 0) > 1}
-        numberOfLines={multiline}
-        textAlignVertical="top"
-        renderErrorMessage={false}
-        style={{ width: "100%" }}
-        autoCapitalize={autoComplete === "email" || secure ? "none" : undefined}
-        autoCorrect={autoComplete === "email" || secure ? false : undefined}
-        textContentType={secure ? "password" : undefined}
-      />
-    )}
-  </StyledView>
-);
 
 type SetState<T> = (value: (prevState: T) => T, name: string) => unknown;
 type State<T> = {
