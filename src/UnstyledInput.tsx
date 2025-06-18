@@ -61,6 +61,7 @@ export const UnstyledInput = ({
           textAlignVertical="top"
           renderErrorMessage={false}
           style={{ width: "100%" }}
+          inputContainerStyle={{ borderBottomWidth: 0 }}
           autoCapitalize={
             autoComplete === "email" || secure ? "none" : undefined
           }
