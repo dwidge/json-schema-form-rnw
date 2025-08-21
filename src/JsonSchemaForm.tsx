@@ -1,5 +1,9 @@
 import { StyledText, StyledView } from "@dwidge/components-rnw";
-import { BufferedState, useBufferedState } from "@dwidge/hooks-react";
+import {
+  BufferedState,
+  useAsyncDebounceState,
+  useBufferedState,
+} from "@dwidge/hooks-react";
 import { assert } from "@dwidge/utils-js";
 import { Button, CheckBox, Text } from "@rneui/themed";
 import * as Ajv from "ajv";
@@ -98,9 +102,9 @@ export const JSONSchemaForm = <T, S>({
   value,
   onChange,
 }: JsonSchemaFormProps<T, S>): JSX.Element => {
-  const [delayed, setDelayed] = useBufferedState([
+  const [delayed, setDelayed] = useAsyncDebounceState([
     value,
-    onChange ? (v) => onChange?.(() => v) : undefined,
+    onChange ? async (v) => onChange?.(() => v as T) as T : undefined,
   ]);
   return (
     <AnyInput
