@@ -101,7 +101,7 @@ export const JSONSchemaForm = <T, S>({
   schema,
   value,
   onChange,
-}: JsonSchemaFormProps<T, S>): JSX.Element => {
+}: JsonSchemaFormProps<T, S>): React.JSX.Element => {
   const [delayed, setDelayed] = useAsyncDebounceState([
     value,
     onChange ? async (v) => onChange?.(() => v as T) as T : undefined,
